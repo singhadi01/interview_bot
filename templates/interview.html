@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Interview Bot</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Poppins, sans-serif;
+            background: #121212;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container-box {
+            width: 520px;
+            background: white;
+            color: black;
+            padding: 22px;
+            border-radius: 14px;
+            box-shadow: 0 0 18px rgba(0,255,0,0.3);
+        }
+
+        h2 { text-align: center; color: #2ecc71; }
+
+        textarea, input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 6px;
+            border: 1px solid #aaa;
+            font-size: 15px;
+        }
+
+        .btn {
+            width: 100%;
+            font-size: 18px;
+            padding: 12px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 14px;
+        }
+
+        .start { background: #2ecc71; color: white; }
+        .stop  { background: #e74c3c; color: white; }
+
+        .instructions-box {
+            margin-top: 18px;
+            width: 520px;
+            background: #1e1e1e;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(255,255,255,0.1);
+        }
+
+        .instructions-box ul {
+            padding-left: 18px;
+            line-height: 1.6;
+        }
+
+        .feedback-box {
+            margin-top: 20px;
+            width: 520px;
+            background: #f1c40f;
+            color: black;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container-box">
+    <h2>AI Interview Bot </h2>
+
+    {% if error %}
+        <div style="color:red;text-align:center;font-weight:bold;margin-bottom:10px;">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form action="{% url 'begin' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label class="fw-semibold">Job Description</label>
+        <textarea name="job_description" placeholder="Paste job description here..." rows="4" required>{{ job_description|default:"" }}</textarea>
+
+        <label class="fw-semibold">Upload Resume (PDF only)</label>
+        <input type="file" name="resume" accept=".pdf" required>
+
+        <button type="submit" class="btn start">Start Interview </button>
+        <button type="submit" formaction="{% url 'stopInterview' %}" class="btn stop">Stop Interview ⏹</button>
+    </form>
+</div>
+
+<div class="instructions-box">
+    <h3 style="color:#f1c40f;text-align:center;">Instructions</h3>
+    <ul>
+        <li>Your answer is finished if you stay silent for 5 seconds.</li>
+        <li>Start answering when the bot says "answer now".</li>
+        <li>Answers are auto-recorded and processed.</li>
+        <li>Do not use manual mute — silence ends response.</li>
+    </ul>
+</div>
+
+{% if feedback %}
+<div class="overlay">
+    <div class="card feedback-card">
+        <h2>Interview Feedback ✅</h2>
+        <ul class="list-box">
+            {% for f in feedback %}
+            <li>{{ f }}</li>
+            {% endfor %}
+        </ul>
+        <form action="{% url 'interview_home' %}" method="GET">
+            <button class="btn start">Back to Home 🏠</button>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+
+</body>
+</html>
