@@ -1,0 +1,1 @@
+web: gunicorn notesbox.wsgi:application --log-file -
