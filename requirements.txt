@@ -10,9 +10,10 @@ huggingface-hub==0.36.0
 python-dotenv==1.2.1
 PyYAML==6.0.3
 sqlparse==0.5.4
-SQLAlchemy==2.0.44
+SQLAlchemy==2.0.35
 tenacity==9.1.2
 pypdf==4.2.0
 SpeechRecognition==3.10.4
 playsound3==3.3.0
 requests==2.32.5
+
