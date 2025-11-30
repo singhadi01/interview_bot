@@ -58,6 +58,7 @@ git clone https://github.com/singhadi01/interview_bot
 python -m venv myenv
 myenv\Scripts\activate  # Windows
 # source myenv/bin/activate  # Mac/Linux
+#make .env file and put the huggingface api in that file
 
 # Install dependencies
 pip install -r requirements.txt
